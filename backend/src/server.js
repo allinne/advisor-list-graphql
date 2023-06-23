@@ -2,6 +2,9 @@ import path from 'path';
 import express from 'express';
 // import 'dotenv/config';
 import { db, connectToDb } from './db.js';
+import { graphqlHTTP } from 'express-graphql';
+import schema from './data/schema.js';
+import resolvers from './data/resolvers.js';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -14,6 +17,14 @@ app.use(express.json());
 // app.get(/^(?!\/api).+/, (req, res) => {
 //     res.sendFile(path.join(__dirname, '../build/index.html'));
 // })
+
+const root = resolvers;
+
+app.use('/graphql', graphqlHTTP({
+  schema,
+  rootValue: root,
+  graphiql: true,
+}))
 
 app.get('/api/advisors', async (req, res) => {
     const articles = await db.collection('advisors')
