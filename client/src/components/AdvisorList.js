@@ -1,20 +1,26 @@
 import { useEffect, useContext, useState } from 'react';
 import axios from 'axios';
 import { CurrentSortingContext, CurrentFilteringContext } from '../contexts/index';
-import { LANGUAGES } from '../constants';
-
+import { LANGUAGES, ENDPOINT } from '../constants';
+import advisorsQuery from '../queries';
 import AdvisorPreview from './AdvisorPreview';
 
 function AdvisorList() {
   const [ advisors, setAdvisors ] = useState([]);
 
   useEffect(() => {
-    async function loadData() {
-      const response = await axios.get('/api/advisors');
-      const data = response.data;
+    async function fetchData() {
+      const response = await axios({
+        url: ENDPOINT,
+        method: "POST",
+        data: {
+          query: advisorsQuery
+        }
+      });
+      const data = await response.data.data.getAdvisors;
       setAdvisors(data);
     }
-    loadData();
+    fetchData();
   }, []);
 
   const { currentSorting } = useContext(CurrentSortingContext);
@@ -22,9 +28,9 @@ function AdvisorList() {
 
   let filteredByLanguageAdvisors = [];
   if (LANGUAGES.includes(currentFiltering['language'])) {
-    filteredByLanguageAdvisors = advisors.filter(el => el.language === currentFiltering['language']);
+    filteredByLanguageAdvisors = (advisors || []).filter(el => el.language === currentFiltering['language']);
   } else {
-    filteredByLanguageAdvisors = advisors;
+    filteredByLanguageAdvisors = advisors || [];
   }
 
   let filteredByStatusAdvisors = [];
