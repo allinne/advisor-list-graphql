@@ -1,6 +1,6 @@
 import path from 'path';
 import express from 'express';
-// import 'dotenv/config';
+import 'dotenv/config';
 import { db, connectToDb } from './db.js';
 import { graphqlHTTP } from 'express-graphql';
 import schema from './data/schema.js';
@@ -12,11 +12,11 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(express.json());
-// app.use(express.static(path.join(__dirname, '../build')));
 
+app.use(express.static(path.join(__dirname, '../build')));
 // app.get(/^(?!\/api).+/, (req, res) => {
 //     res.sendFile(path.join(__dirname, '../build/index.html'));
-// })
+// });
 
 const root = resolvers;
 
@@ -27,7 +27,7 @@ app.use('/graphql', graphqlHTTP({
 }))
 
 app.get('/api/advisors', async (req, res) => {
-    const articles = await db.collection('advisors')
+    const advisors = await db.collection('advisors')
       .find()
       .project({
         id: 1,
@@ -38,8 +38,8 @@ app.get('/api/advisors', async (req, res) => {
       })
       .toArray();
 
-    if (articles) {
-        res.json(articles);
+    if (advisors) {
+        res.json(advisors);
     } else {
       return res.sendStatus(400);
     }

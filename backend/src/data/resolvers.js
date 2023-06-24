@@ -1,9 +1,9 @@
-import { Advisors } from './dbConnectors.js';
+import { Advisor } from './dbConnectors.js';
 
 const resolvers = {
   getAdvisors: async() => {
     try {
-      let advisors = await Advisors.find();
+      let advisors = await Advisor.find();
       return advisors;
     } catch (error) {
       throw error;
