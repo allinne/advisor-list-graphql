@@ -10,7 +10,7 @@ export const advisorsQuery = `
   }
 `;
 
-export const infinityAdvisorsQuery = (afterCursor, itemCount = 10) => {
+export const infinityAdvisorsQuery = (afterCursor, itemCount = 30) => {
   return `{
     getInfinityAdvisors(first: ${itemCount}, afterCursor: "${afterCursor}") {
       totalCount
