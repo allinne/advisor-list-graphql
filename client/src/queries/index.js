@@ -1,4 +1,4 @@
-const advisorsQuery = `
+export const advisorsQuery = `
   {
     getAdvisors {
       id
@@ -10,4 +10,24 @@ const advisorsQuery = `
   }
 `;
 
-export default advisorsQuery;
+export const infinityAdvisorsQuery = (afterCursor, itemCount = 10) => {
+  return `{
+    getInfinityAdvisors(first: ${itemCount}, afterCursor: "${afterCursor}") {
+      totalCount
+      edges {
+        cursor
+        node {
+          id
+          name
+          status
+          language
+          reviewNumber
+        }
+      }
+      pageInfo {
+        hasNextPage
+        startCursor
+      }
+    }
+  }`
+};

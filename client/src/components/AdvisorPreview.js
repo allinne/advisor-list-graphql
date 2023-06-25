@@ -1,7 +1,7 @@
 import React from 'react';
 import { AVAILABILITY_STATUS_LIST } from '../constants';
 
-const AdvisorPreview = ({ advisor }) => {
+function AdvisorPreview({ advisor }) {
   const statusClassName = `advisor-item__status advisor-item__status--${AVAILABILITY_STATUS_LIST[advisor.status]}`;
 
   return (

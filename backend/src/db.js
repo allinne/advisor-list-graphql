@@ -11,7 +11,7 @@ const DATABASE_NAME = env.DEV ? 'local' : env.DATABASE_NAME;
 export const MONGODB_URI =
   env.DEV ?
     localMongoDbUri :
-    `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@advisors.rhodgks.mongodb.net`;
+    `mongodb+srv://${env.MONGO_USERNAME}:${env.MONGO_PASSWORD}@${env.MONGO_INSTANCE}`;
 
 async function connectToDb(cb) {
   if (connectedClient) {
@@ -20,6 +20,7 @@ async function connectToDb(cb) {
   }
 
   const client = new MongoClient(MONGODB_URI);
+  console.log(MONGODB_URI)
   await client.connect();
   connectedClient = client;
   db = client.db(DATABASE_NAME);
