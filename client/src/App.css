@@ -37,6 +37,28 @@ h1 {
   width: 80%;
 }
 
+.reset-filters-sorting {
+  align-self: flex-end;
+}
+
+.reset-filters-sorting__button {
+  height: 24px;
+  padding: 4px 8px;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #fff;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.reset-filters-sorting__button:disabled {
+  border-color: rgba(90, 168, 236, 0.25);
+  color: rgba(90, 168, 236, 0.3);
+  cursor: not-allowed;
+}
+
 .advisor-table {
   width: 100%;
   border-radius: var(--border-radius);

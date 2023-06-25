@@ -8,14 +8,18 @@ import SortReview from './SortReview';
 import FilterLanguage from './FilterLanguage';
 import FilterStatus from './FilterStatus';
 import { withFilterSelect } from '../HOC/withFilterSelect';
+import hasInitialFiltersAndSorts from '../utils/useInitialFilteringAndSorting';
 
 const FilterStatusComponent = withFilterSelect(FilterStatus);
 const FilterLanguageComponent = withFilterSelect(FilterLanguage);
 
 function AdvisorTable() {
+  const { currentSorting } = useContext(CurrentSortingContext);
+  const { currentFiltering } = useContext(CurrentFilteringContext);
+
   const [ advisors, setAdvisors ] = useState([]);
-  const observerTarget = useRef(null);
   const [ isLoading, setIsLoading ] = useState(false);
+  const observerTarget = useRef(null);
   let pageInfo = useRef({ hasNextPage: false, startCursor: '' });
 
   useEffect(() => {
@@ -23,7 +27,8 @@ function AdvisorTable() {
     let currentObserverTarget = observerTarget;
     const observer = new IntersectionObserver(
       entries => {
-        if (entries[0].isIntersecting && pageInfo.current.hasNextPage) {
+        const canBeUpdated = entries[0].isIntersecting && pageInfo.current.hasNextPage && hasInitialFiltersAndSorts({ currentSorting, currentFiltering });
+        if (canBeUpdated) {
           fetchData();
         }
       },
@@ -53,7 +58,7 @@ function AdvisorTable() {
           ...data.edges
         ]);
         setIsLoading(false);
-    }
+      }
     }
     fetchData();
 
@@ -63,10 +68,7 @@ function AdvisorTable() {
         observer.unobserve(currentObserverTarget.current);
       }
     };
-  }, [observerTarget, pageInfo]);
-
-  const { currentSorting } = useContext(CurrentSortingContext);
-  const { currentFiltering } = useContext(CurrentFilteringContext);
+  }, [observerTarget, pageInfo, currentFiltering, currentSorting]);
 
   let filteredByLanguageAdvisors = [];
   if (LANGUAGES.includes(currentFiltering['language'])) {
