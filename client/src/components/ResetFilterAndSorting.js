@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import hasInitialFiltersAndSorts from '../utils/useInitialFilteringAndSorting';
+import hasInitialFiltersAndSorts from '../utils/hasInitialFiltersAndSorts';
 import { CurrentSortingContext, CurrentFilteringContext } from '../contexts/index';
 import { INITIAL_SORTING, INITIAL_FILTERING } from '../constants';
 

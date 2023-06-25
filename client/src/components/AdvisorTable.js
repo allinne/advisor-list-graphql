@@ -8,7 +8,7 @@ import SortReview from './SortReview';
 import FilterLanguage from './FilterLanguage';
 import FilterStatus from './FilterStatus';
 import { withFilterSelect } from '../HOC/withFilterSelect';
-import hasInitialFiltersAndSorts from '../utils/useInitialFilteringAndSorting';
+import hasInitialFiltersAndSorts from '../utils/hasInitialFiltersAndSorts';
 
 const FilterStatusComponent = withFilterSelect(FilterStatus);
 const FilterLanguageComponent = withFilterSelect(FilterLanguage);
